@@ -1,0 +1,9 @@
+function img = readImg(path)
+   
+img = imread(path);
+
+img(img <= 128) = 0;
+img(img > 128) = 1;
+img = imcomplement(img);
+
+end

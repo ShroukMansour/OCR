@@ -1,0 +1,66 @@
+function centroid = calcCentroid() 
+        centroid = {};
+       img = [1, 1, 0, 0; 1, 1, 0, 0; 1, 0, 1, 1; 0, 1, 0, 0];
+        sz = size(img);
+        if (mod(sz(2),2) ~= 0) 
+           colSz = (sz(2) - 1) / 2;
+        else 
+           colSz = sz(2) / 2;
+        end
+
+        if (mod(sz(1),2) ~= 0) 
+           rowSz = (sz(1) - 1) / 2;
+        else 
+           rowSz = sz(1) / 2;
+        end
+
+        i = 1;
+        j = 1;
+        sumOfX = 0;
+        sumOfY = 0;
+        numOf1s = 0;
+        while true
+            if img(i, j) == 1
+                   sumOfX = sumOfX + i;
+                   sumOfY = sumOfY + j;
+                   numOf1s = numOf1s + 1;
+            end
+
+            if j == colSz && i == sz(2)
+                j = colSz + 1;
+                i = 1;
+                centroid = [centroid, (sumOfX / numOf1s), (sumOfY / numOf1s)];
+                sumOfX = 0;
+                sumOfY = 0;
+                numOf1s = 0;
+            elseif j == colSz
+                    if i == rowSz
+                        centroid = [centroid, (sumOfX / numOf1s), (sumOfY / numOf1s)];
+                        sumOfX = 0;
+                        sumOfY = 0;
+                        numOf1s = 0;
+                    end
+                    j = 1;
+                    i = i + 1;
+            elseif j == sz(2) && i == sz(1)
+                centroid = [centroid, (sumOfX / numOf1s), (sumOfY / numOf1s)];
+                break;
+            elseif j == sz(2)
+                if i == rowSz
+                   centroid = [centroid, (sumOfX / numOf1s), (sumOfY / numOf1s)];
+                    sumOfX = 0;
+                    sumOfY = 0;
+                    numOf1s = 0;
+                end
+                j = colSz + 1;
+                i = i + 1;
+            else 
+                j = j + 1;
+            end
+                
+        end
+
+       centroid = cell2mat(centroid);
+
+
+end
